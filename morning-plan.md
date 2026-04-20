@@ -12,9 +12,6 @@ Generates a complete morning briefing: calendar events, overdue/due-today tasks,
 Run all of the following simultaneously:
 
 1. **Google Calendar** — Run this Bash command to fetch today's events across all three calendars:
-   ```bash
-   TODAY=$(date +%Y-%m-%d); TOMORROW=$(date -d tomorrow +%Y-%m-%d); for cal in "primary" "family14670976850356916614@group.calendar.google.com" "20394623f738d4c89a7d45b1b05eae121f0311ca372cddab776fb78a0b308c63@group.calendar.google.com"; do gws calendar events list --params "{\"calendarId\":\"$cal\",\"timeMin\":\"${TODAY}T00:00:00Z\",\"timeMax\":\"${TOMORROW}T00:00:00Z\",\"singleEvents\":true,\"orderBy\":\"startTime\"}"; done
-   ```
    **Outlook** — `mcp__Outlook__get_todays_events`
 2. **Today's daily note** — path: `00 - Timestamps/YYYY/MM-MonthName/YYYY-MM-DD-DayName.md`
    - Derive path from today's date (e.g., `2026-02-24` → `00 - Timestamps/2026/02-February/2026-02-24-Tuesday.md`)
