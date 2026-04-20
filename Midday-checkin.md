@@ -10,16 +10,10 @@ Lightweight mid-day reset: assess what's done, what's left, and produce a clean 
 ## Step 1: Gather Context (all in parallel)
 
 1. **Google Calendar** — Run this Bash command to fetch today's events across all three calendars:
-   ```bash
-   TODAY=$(date +%Y-%m-%d); TOMORROW=$(date -d tomorrow +%Y-%m-%d); for cal in "primary" "family14670976850356916614@group.calendar.google.com" "20394623f738d4c89a7d45b1b05eae121f0311ca372cddab776fb78a0b308c63@group.calendar.google.com"; do gws calendar events list --params "{\"calendarId\":\"$cal\",\"timeMin\":\"${TODAY}T00:00:00Z\",\"timeMax\":\"${TOMORROW}T00:00:00Z\",\"singleEvents\":true,\"orderBy\":\"startTime\"}"; done
-   ```
+
    **Outlook** — `mcp__Outlook__get_todays_events`
 2. **Today's daily note** — `00 - Timestamps/YYYY/MM-MonthName/YYYY-MM-DD-DayName.md`
 3. **IMPORTANT** **Today's modified notes** — Find and read all notes modified today using this Bash command (use a heredoc to prevent bash from mangling PowerShell's `$_`):
-   ```bash
-   powershell -File - << 'PSEOF'
-   Get-ChildItem -Path 'D:\My Drive\DriveSyncFiles\Obsidian Vault' -Recurse -File | Where-Object { $_.LastWriteTime -ge 'YYYY-MM-DD 00:00:00' -and $_.LastWriteTime -lt 'YYYY-MM-DD+1 00:00:00' } | Select-Object FullName, LastWriteTime | Sort-Object LastWriteTime
-   PSEOF
    ```
    Replace `YYYY-MM-DD` with today's date and `YYYY-MM-DD+1` with tomorrow's date. Then read all returned files, skipping: `.trash/`, Japanese vocab notes (`02 - Projects/Japanese/単語`), and the daily notes already being read in steps 3–5.
 4. **Prior 3 daily notes** — Use `mcp__obsidian-rag__get_recent_daily_notes(days=3)`. Returns full note content — no path construction needed.
@@ -64,7 +58,7 @@ Produce a focused briefing. Keep it tight — this is a quick reset, not a full 
 [Rebuild the remainder of the day as time blocks. Rules:
 - Start from now (skip time already passed)
 - Preserve any remaining calendar events as anchors — do NOT create time blocks for them
-- Apply weekly UOA/Billingsley balance (scan this week's blocks from prior notes)
+- Apply weekly balance (scan this week's blocks from prior notes)
 - Take time from work blocks before moving anything personal (Rule 1)
 - Weave in any carry-forward tasks that are still actionable today
 - Format: `HH:MM – HH:MM — [Block Name] #tag`]
