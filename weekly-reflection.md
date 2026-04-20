@@ -14,28 +14,15 @@ Run all of the following simultaneously:
 1. **Past 7 daily notes** — Use `mcp__obsidian-rag__get_recent_daily_notes(days=7)`. Returns full content of each note.
 2. **Today's daily note** — path: `00 - Timestamps/YYYY/MM-MonthName/YYYY-MM-DD-DayName.md` (derive from today's date). May overlap with the above — that's fine.
 3. **All notes modified this week** — Find every file modified in the past 7 days:
-   ```bash
-   powershell -File - << 'PSEOF'
-   $cutoff = (Get-Date).AddDays(-7)
-   Get-ChildItem -Path 'D:\My Drive\DriveSyncFiles\Obsidian Vault' -Recurse -File |
-     Where-Object { $_.LastWriteTime -ge $cutoff -and $_.FullName -notmatch '\\\.trash\\' -and $_.FullName -notmatch '\\\.obsidian\\' -and $_.FullName -notmatch '\\\.claude\\' } |
-     Select-Object FullName, LastWriteTime |
-     Sort-Object LastWriteTime -Descending
-   PSEOF
-   ```
+
    Read any non-daily-note files from this list that look substantive (project notes, resource docs, people notes). For each, extract: accomplishments mentioned, tasks added or completed, and any relevant context. Skip: daily notes (already gathered), images, attachments, and config files.
 4. **PROGRESS.md** — Use `mcp__obsidian-rag__get_note("03 - Resources/PROGRESS.md")`
 5. **CLAUDE.md** — Use `mcp__obsidian-rag__get_note("03 - Resources/CLAUDE.md")` — for role, rules, and constraints. Reference before producing output.
 6. **Life Goals** — Read `03 - Resources/Life Goals.md` — the user's long-term goals across all domains.
 7. **Recent therapy notes** — Find the 2 most recently modified files in `02 - Projects/Self Improvement/Therapy/` using:
-   ```bash
-   powershell -Command "Get-ChildItem -Path 'D:\My Drive\DriveSyncFiles\Obsidian Vault\02 - Projects\Self Improvement\Therapy' -File | Sort-Object LastWriteTime -Descending | Select-Object -First 2 -ExpandProperty FullName"
-   ```
    Read both files. Extract: what was worked on, tools or practices mentioned, any explicit "try this" instructions.
 6. **Google Calendar (past 7 days)** — Run this Bash command to fetch the week's events:
-   ```bash
-   START=$(date -d "7 days ago" +%Y-%m-%d); END=$(date -d tomorrow +%Y-%m-%d); for cal in "primary" "family14670976850356916614@group.calendar.google.com" "20394623f738d4c89a7d45b1b05eae121f0311ca372cddab776fb78a0b308c63@group.calendar.google.com"; do echo "=== $cal ==="; gws calendar events list --params "{\"calendarId\":\"$cal\",\"timeMin\":\"${START}T00:00:00Z\",\"timeMax\":\"${END}T00:00:00Z\",\"singleEvents\":true,\"orderBy\":\"startTime\"}"; done
-   ```
+
    **Outlook (past 7 days)** — Call `mcp__Outlook__get_events_for_date` for each of the past 7 days.
 
 ## Step 2: Extract Themes and Search
@@ -53,7 +40,7 @@ Run queries in parallel using `mcp__obsidian-rag__search_daily_notes` (date rang
 ## Step 3: Analyze
 
 ### Accomplishments
-Scan every daily note's Time Blocking section for `- [x]` items. Compile a complete list, grouped by project/tag (e.g., `#billingsley`, `#uoa`, personal). Include notable sub-tasks. This should be thorough — the user wants to see everything they got done.
+Scan every daily note's Time Blocking section for `- [x]` items. Compile a complete list, grouped by project/tag (e.g., `#work`, personal). Include notable sub-tasks. This should be thorough — the user wants to see everything they got done.
 
 ### Incomplete / Carried Forward
 Track `- [ ]` items that appeared across multiple days. Flag anything that carried forward 3+ days — these are stuck items that need attention.
@@ -62,13 +49,13 @@ Track `- [ ]` items that appeared across multiple days. Flag anything that carri
 From each day's Routines section, tally which habits were checked vs unchecked across the week. Present as a simple scorecard (e.g., "Medicine: 5/7 days", "Exercise: 3/7 days"). Note any streaks (positive or negative).
 
 ### Work Balance
-From Time Blocking sections, estimate total hours on `#billingsley` vs `#uoa` for the week. Compare to the 50/50 target (Rule 4). Note which direction the balance tilted and whether it was appropriate given the week's circumstances.
+From Time Blocking sections, estimate total hours on `#work` vs `#personal` for the week. Compare to the 50/50 target (Rule 4). Note which direction the balance tilted and whether it was appropriate given the week's circumstances.
 
 ### Themes
 From the daily notes' Morning Check-in and Evening Reflection callouts, plus the search results from Step 2, identify the dominant emotional and situational threads of the week. Look for:
 - Patterns that appeared 3+ times
 - Trends (getting better, worse, or flat)
-- Connections between themes (e.g., low energy days correlating with heavy billingsley work)
+- Connections between themes (e.g., low energy days correlating with heavy work)
 - Anything surprising or notable
 
 ### Notes Created / Modified
@@ -96,7 +83,7 @@ Produce the reflection in this format. Tone: honest, reflective, warm but not sa
 
 ## 📊 Balance & Habits
 
-**Work balance:** [X hours billingsley / Y hours UOA — Z% / W%. Commentary on whether this hit the 50/50 target and why or why not.]
+**Work balance:** [X hours work / Y hours personal — Z% / W%. Commentary on whether this hit the 50/50 target and why or why not.]
 
 **Habits scorecard:**
 [Table or list format. Each habit with days completed out of 7. Note streaks.]
