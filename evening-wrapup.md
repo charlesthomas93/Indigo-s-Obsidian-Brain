@@ -10,16 +10,9 @@ Reflective end-of-day summary: what got done, what carries forward, habits check
 ## Step 1: Gather Context (all in parallel)
 
 1. **IMPORTANT** **Today's modified notes** — Find and read all notes modified today using this Bash command (use a heredoc to prevent bash from mangling PowerShell's `$_`):
-   ```bash
-   powershell -File - << 'PSEOF'
-   Get-ChildItem -Path 'D:\My Drive\DriveSyncFiles\Obsidian Vault' -Recurse -File | Where-Object { $_.LastWriteTime -ge 'YYYY-MM-DD 00:00:00' -and $_.LastWriteTime -lt 'YYYY-MM-DD+1 00:00:00' } | Select-Object FullName, LastWriteTime | Sort-Object LastWriteTime
-   PSEOF
-   ```
+
    Replace `YYYY-MM-DD` with today's date and `YYYY-MM-DD+1` with tomorrow's date. Then read all returned files, skipping: `.trash/`, Japanese vocab notes (`02 - Projects/Japanese/単語`), and the daily notes already being read in steps 3–5.
 2. **Google Calendar** — Run this Bash command to fetch today's and tomorrow's events across all three calendars:
-   ```bash
-   TODAY=$(date +%Y-%m-%d); TOMORROW=$(date -d tomorrow +%Y-%m-%d); DAYAFTER=$(date -d "+2 days" +%Y-%m-%d); for cal in "primary" "family14670976850356916614@group.calendar.google.com" "20394623f738d4c89a7d45b1b05eae121f0311ca372cddab776fb78a0b308c63@group.calendar.google.com"; do echo "=== TODAY $cal ==="; gws calendar events list --params "{\"calendarId\":\"$cal\",\"timeMin\":\"${TODAY}T00:00:00Z\",\"timeMax\":\"${TOMORROW}T00:00:00Z\",\"singleEvents\":true,\"orderBy\":\"startTime\"}"; echo "=== TOMORROW $cal ==="; gws calendar events list --params "{\"calendarId\":\"$cal\",\"timeMin\":\"${TOMORROW}T00:00:00Z\",\"timeMax\":\"${DAYAFTER}T00:00:00Z\",\"singleEvents\":true,\"orderBy\":\"startTime\"}"; done
-   ```
    **Outlook** — `mcp__Outlook__get_todays_events` and `mcp__Outlook__get_events_for_date` for tomorrow
 3. **Today's daily note** — `00 - Timestamps/YYYY/MM-MonthName/YYYY-MM-DD-DayName.md`
 4. **Tomorrow's daily note** — same path pattern, next day. May not exist yet — that's fine.
@@ -41,8 +34,8 @@ Identify 2–4 distinct themes the user is engaging with — emotions, people, p
 
 Examples of how to derive queries:
 - Evening reflection mentions feeling proud of finishing something → query: `"finished shipped completed proud"`
-- Morning check-in mentioned processing something with Laura → query: `"Laura relationship"`
-- Day was heavy with billingsley work but felt unproductive → query: `"billingsley unproductive stuck"`
+- Morning check-in mentioned processing something with parner → query: `"relationship"`
+- Day was heavy with work but felt unproductive → query: `"work unproductive stuck"`
 - User mentioned being tired or sleep affecting the day → query: `"tired sleep exhausted drained"`
 
 If today's note has no reflective content at all (all callouts empty, no meaningful notes), skip this step entirely and omit the 🔁 Recurring Themes section from output.
