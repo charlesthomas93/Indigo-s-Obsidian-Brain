@@ -67,9 +67,7 @@ If today's note has a "Morning Check-in" callout with content beyond the templat
 Determine from today's date and the schedule rules in `03 - Resources/CLAUDE.md`:
 - Weekday vs weekend
 - Commute day (Monday or Friday)
-- Kai day (Mon evening, Tue/Wed all day, Thu morning, every other weekend)
 - Climbing day (Mon, Thu, or one weekend day)
-- Laura's schedule (look for "Sequence #" events on calendar → she's at work)
 
 ### Eat the Frog
 Identify the tasks the user has been avoiding most. Use this priority order:
@@ -82,7 +80,7 @@ Include ALL pressing avoided tasks — not just one. These form the "frog block"
 Determine block duration: 30 minutes by default. If the combined frog tasks clearly require more time (e.g., a phone call + follow-up, a multi-step chore), extend to up to 1 hour. Never exceed 1 hour.
 
 ### Weekly Balance Check
-From the past 7 daily notes, scan Time Blocking sections. Estimate hours spent on `#billingsley` vs UOA this week so far. Use this to inform whether today should lean UOA or Billingsley (target: ~50/50 by end of week per Rule 4).
+From the past 7 daily notes, scan Time Blocking sections. Estimate hours spent on `#work` vs personal this week so far. Use this to inform whether today should lean personal or personal (target: ~50/50 by end of week per Rule 4).
 
 ### Morning Reflection Themes
 From the search results in Step 1b, look for patterns across the past 30 days for each theme derived from today's reflection:
